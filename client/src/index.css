@@ -1,0 +1,389 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400&display=swap");
+/* font-family: "Playfair Display", serif; */
+/* font-family: "Poppins", sans-serif; */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: 300ms;
+}
+
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+/* navbar */
+.navbar {
+  font-family: "Poppins", sans-serif;
+  font-size: 17px;
+  line-height: 26px;
+  text-transform: uppercase;
+  box-shadow: 0 3px 3px -3px grey;
+  --webkit-box-shadow: 0 3px 3px -3px grey;
+  border-bottom: solid grey !important;
+}
+
+.nav-font{
+  font-family: "Poppins", sans-serif;
+  font-size: 17px;
+  line-height: 26px;
+  text-transform: uppercase;
+  font-weight: 300 !important;
+  color: #333;
+  border: none;
+}
+
+.nav-font:hover, .nav-font:focus{
+  background-color: #f8f9fa;
+  border: none;
+}
+
+.dropdown-menu-light li{
+  text-transform: capitalize;
+}
+
+.nav-item .btn-danger {
+  font-size: 1.1rem;
+}
+
+.nav-link {
+  font-weight: 300 !important;
+}
+
+svg {
+  position: relative;
+  bottom: 1px;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-family: "roboto", sans-serif;
+  letter-spacing: 3px;
+}
+
+.navbar-brand:hover {
+  color: #6f00ff;
+}
+
+.cart .top-0 , .navbar-toggler>.top-100{
+  font-size: 9px;
+  font-weight: bold;
+}
+
+.cart {
+  display: inline-block;
+}
+
+.active {
+  /* border-bottom: 2px solid black; */
+  /* background-color: black; */
+  color: white;
+  background-color: #dfdfdf;
+  border-radius: 5px;
+}
+
+.form-control:focus {
+  box-shadow: 3px 3px 0 #afafaf, -3px -3px 0 #afafaf;
+  /* outline-color: #333; */
+  /* border: 1px solid black; */
+}
+
+@media screen and (max-width: 800px) {
+  /* .collapse {
+    padding-top: 20px;
+  } */
+
+  .navbar-collapse {
+    padding-top: 20px;
+  }
+}
+
+/* footer */
+
+.footer {
+  background: linear-gradient(60deg, rgb(0, 0, 0), rgb(175, 175, 175));
+  color: white;
+}
+
+.footer p {
+  text-align: center;
+  padding-top: 20px;
+}
+
+.footer a {
+  text-decoration: none;
+  color: aliceblue;
+  padding: 5px;
+}
+
+.footer a:hover {
+  color: grey;
+  border-bottom: 1px solid grey;
+}
+
+/* page not found */
+
+.not-found {
+  text-align: center;
+  align-items: center;
+  vertical-align: middle;
+  height: 50vh;
+  padding: 20vh 0;
+}
+
+.not-found h1 {
+  font-size: 100px;
+  animation: 2s linear infinite red-yellow-green;
+}
+
+@keyframes red-yellow-green {
+  0% {
+    transform: translateY(20px);
+  }
+  50% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(20px);
+  }
+}
+
+.not-found a {
+  text-decoration: none;
+  color: black;
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px grey;
+}
+
+.not-found a:hover {
+  color: white;
+  background-color: black;
+  /* border: 1px solid white; */
+  box-shadow: 0 0 5px grey;
+}
+
+@media screen and (max-width: 800px) {
+  .not-found h1 {
+    font-size: 70px;
+  }
+}
+
+/* ======= contact page ======= */
+.contact {
+  max-width: 1000px;
+  margin: 10vh auto;
+  display: grid;
+  background-color: lightgrey;
+  grid-gap: 10px;
+  padding: 2%;
+  overflow: hidden;
+  border-radius: 10px;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.contact img {
+  /* width: 100%; */
+  height: 100%;
+}
+
+.contact div {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: 1fr 2fr 3fr 3fr 2fr;
+  background-color: #333;
+  color: #fff;
+  padding: 6%;
+  z-index: 999;
+}
+
+.contact h2 {
+  grid-row: 2/3;
+  color: #333;
+  background-color: #fff;
+  text-align: center;
+  align-content: center;
+  border-radius: 10px;
+}
+
+.contact p {
+  grid-row: 3/4;
+}
+
+.contact ul {
+  grid-row: 4/5;
+  list-style: none;
+  display: grid;
+  grid-row-gap: 10px;
+}
+
+@media screen and (max-width: 1000px) {
+  .contact {
+    display: block;
+    width: 100%;
+  }
+  .contact img {
+    width: 100%;
+    margin: 20px 0;
+  }
+}
+
+/* ============= about us ================ */
+
+.about {
+  display: grid;
+  max-width: 1000px;
+  margin: 15vh auto;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  background-color: #e9e9e9;
+  padding: 20px;
+}
+
+.about img {
+  width: 100%;
+}
+
+.about div {
+  background-color: #333;
+  color: #fff;
+  padding: 5%;
+  border-radius: 10px;
+}
+
+.about img {
+  align-self: center;
+}
+
+.about h2 {
+  background-color: #fff;
+  color: #333;
+  padding: 1%;
+  text-align: center;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 1000px) {
+  .about {
+    margin: 5vh auto;
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+/* =================== Register ================== */
+.register {
+  box-shadow: 0 0 4px grey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* height: 70vh; */
+  padding: 5vh;
+  border-top: 5px solid #333;
+  border-radius: 10px;
+  max-width: 500px;
+  /* width: 90%; */
+  margin: 5vh auto;
+  flex-direction: column;
+}
+
+.register button svg {
+  animation: spin 2s infinite linear;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.register form {
+  width: 100%;
+}
+
+.register .btn {
+  width: 200px;
+  display: block;
+  margin: 0 auto;
+  font-weight: bold;
+}
+
+.register input:focus {
+  box-shadow: 4px 4px 0 #afafaf, -4px -4px 0 #afafaf;
+  /* outline-color: #333; */
+  /* border: 1px solid black; */
+}
+
+@media screen and (max-width: 800px) {
+  .register {
+    padding: 10vh 5%;
+    margin: 0 auto;
+  }
+}
+
+/* ============ Admin panel ========= */
+.list-group .active {
+  border-radius: initial;
+  font-weight: bold;
+  background-color: #333;
+  border-color: #dfdfdf;
+}
+
+.admin-menu {
+  position: sticky;
+  top: 60px;
+}
+
+.admin-layout-main {
+  min-height: calc(100vh - 59px - 135px);
+
+  /* min-height: 100vh; */
+}
+
+.product-list-wrap {
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card img[alt]{
+  background: #fff;
+  color: #ffffff00;
+  background-image: url("/public/shopping-cart.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100px;
+}
+
+.cust-modal{
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #33333348;
+}
+
+/* product details page */
+@media screen and (max-width: 576px) {
+  .product-details .details-img{
+    width: auto;
+    padding-top: 50px;
+    height: auto;
+  }
+  .product-details{
+    height: auto;
+  }
+}
+
+/* ======================= color ======================= */
+.gr-black-white{
+  background: linear-gradient(90deg, #333, #fff);
+}
