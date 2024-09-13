@@ -2,6 +2,19 @@ import slugify from "slugify";
 import productModel from "../models/productModel.js";
 import fs from "fs";
 import categoryModel from "../models/categoryModel.js";
+import braintree from "braintree";
+import orderModel from "../models/orderModel.js";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+// payment gateway
+var gateway = new braintree.BraintreeGateway({
+  environment: braintree.Environment.Sandbox,
+  merchantId: process.env.BRAINTREE_MERCHANT_ID,
+  publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+  privateKey: process.env.BRAINTREE_PRIVATE_KEY,
+});
 
 // post product
 export const createProductController = async (req, res) => {
@@ -259,7 +272,7 @@ export const filterProductsController = async (req, res) => {
 export const productCountController = async (req, res) => {
   try {
     const totalP = await productModel.find({}).estimatedDocumentCount();
-    const total = Math.ceil(totalP/8);
+    const total = Math.ceil(totalP / 8);
     res.status(200).send({
       success: true,
       total,
@@ -287,9 +300,9 @@ export const productsPerPageController = async (req, res) => {
       .limit(perPage)
       .sort({ createdAt: -1 });
     res.status(200).send({
-      success:true,
-      products
-    })  
+      success: true,
+      products,
+    });
   } catch (error) {
     console.log(error);
     res.status(400).send({
@@ -302,67 +315,119 @@ export const productsPerPageController = async (req, res) => {
 
 // search product controller
 
-export const searchProductController = async(req, res)=>{
+export const searchProductController = async (req, res) => {
   try {
-    const {keyword} = req.params;
-    const result = await productModel.find({
-      $or:[
-        {name:{$regex: keyword, $options:"i"}},
-        {description:{$regex: keyword, $options:"i"}},
-      ]
-    }).select("-photo")
+    const { keyword } = req.params;
+    const result = await productModel
+      .find({
+        $or: [
+          { name: { $regex: keyword, $options: "i" } },
+          { description: { $regex: keyword, $options: "i" } },
+        ],
+      })
+      .select("-photo");
     // res.status(200).send({
-    //   result, 
+    //   result,
     //   success: true
     // })
-    res.json(result)
+    res.json(result);
   } catch (error) {
     console.log(error);
     res.status(400).send({
       error,
-      success:false,
-      message:'error while searching'
-    })
+      success: false,
+      message: "error while searching",
+    });
   }
-}
+};
 
 // similar product controller
-export const similarProductController=async(req, res)=>{
+export const similarProductController = async (req, res) => {
   try {
-    const {pid, cid}=req.params;
-    const products = await productModel.find({
-      category:cid,
-      _id:{$ne:pid}
-    }).select('-photo').limit(6).populate('category');
+    const { pid, cid } = req.params;
+    const products = await productModel
+      .find({
+        category: cid,
+        _id: { $ne: pid },
+      })
+      .select("-photo")
+      .limit(6)
+      .populate("category");
     res.send({
-      success:true,
-      products
-    })
+      success: true,
+      products,
+    });
   } catch (error) {
     res.status(400).send({
-      message:'error in similar product api',
+      message: "error in similar product api",
       error,
-      success: false
-    })
+      success: false,
+    });
   }
-}
+};
 
 // Category wise product
 export const categoryWiseProductController = async (req, res) => {
   try {
-    const category = await categoryModel.findOne({slug:req.params.slug});
-    const products = await productModel.find({category}).populate('category');
+    const category = await categoryModel.findOne({ slug: req.params.slug });
+    const products = await productModel.find({ category }).populate("category");
     res.status(200).send({
       success: true,
       category,
-      products
-    })
+      products,
+    });
   } catch (error) {
     console.log(error);
     res.status(400).send({
-      success:false, 
+      success: false,
       error,
-      message:'error in product wise product api'
-    })
+      message: "error in product wise product api",
+    });
+  }
+};
+
+// braintree token
+export const braintreeTokenController = async (req, res) => {
+  try {
+    gateway.clientToken.generate({}, function (err, response) {
+      if (err) {
+        res.status(500).send({ err });
+      } else {
+        res.send({ response });
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// braintree payments
+export const braintreePaymentController = async (req, res) => {
+  try {
+    const { cart, nonce } = req.body;
+    let total = 0;
+    cart.map((i) => (total += total + i.price));
+    let newTransaction = gateway.transaction.sale({
+      amount: total,
+      paymentMethodNonce: nonce,
+      options:{
+        submitForSettlement: true
+      }
+    },
+    function(error, result){
+      if(result){
+        const order = new orderModel({
+          products: cart, 
+          payment: result, 
+          buyer: req.user._id,
+        }).save()
+        res.json({ok: true})
+      }else{
+        res.status(500).send({error})
+      }
+    }
+  )
+  } catch (error) {
+    console.log(error)
   }
 };
