@@ -36,7 +36,7 @@ const Header = () => {
             aria-label="Toggle navigation"
           >
             <span className="navbar-toggler-icon" />
-            <span class="position-absolute top-100 start-0 translate-middle badge rounded-pill bg-danger">
+            <span className="position-absolute top-100 start-0 translate-middle badge rounded-pill bg-danger">
               {cart?.length}
             </span>
           </button>
@@ -62,7 +62,7 @@ const Header = () => {
                   {categories &&
                     categories.slice(0, 3).map((c) => (
                       <>
-                        <li>
+                        <li key={c._id}>
                           <NavLink
                             className="dropdown-item"
                             to={`/categories/${c.slug}`}
@@ -136,8 +136,8 @@ const Header = () => {
               <li className="nav-item">
                 <NavLink to="/cart" className="nav-link">
                   <div className="cart position-relative">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    <i className="fa-solid fa-cart-shopping"></i>
+                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                       {cart?.length}
                     </span>
                   </div>

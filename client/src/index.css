@@ -357,7 +357,7 @@ svg {
 .card img[alt]{
   background: #fff;
   color: #ffffff00;
-  background-image: url("/public/shopping-cart.png");
+  /* background-image: url("/public/shopping-cart.png"); */
   background-position: center;
   background-repeat: no-repeat;
   height: 100px;

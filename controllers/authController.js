@@ -1,5 +1,6 @@
 import { comparePassword, hashPassword } from "../helpers/authHelper.js";
 import userModel from "../models/userModel.js";
+import orderModel from "../models/orderModel.js";
 import JWT from "jsonwebtoken";
 
 export const registerController = async (req, res) => {
@@ -174,43 +175,68 @@ export const testController = (req, res) => {
   res.send("protected routes");
 };
 
-
 // update profile controller
-export const updateProfileController = async(req, res) =>{
+export const updateProfileController = async (req, res) => {
   try {
-    const {name, email, password, address, phone} = req.body;
+    const { name, email, password, address, phone } = req.body;
     const user = await userModel.findById(req.user._id);
 
     // password check
-     if(password && password.length<6){
+    if (password && password.length < 6) {
       return res.json({
         success: false,
-        message:'Password is required and length must be greater than 6'
-      })
-     }
+        message: "Password is required and length must be greater than 6",
+      });
+    }
     // hashing password if present
-     const hashedPassword = password ? await hashPassword(password) : undefined;
-     
+    const hashedPassword = password ? await hashPassword(password) : undefined;
+
     //  updating user profile
-     const updatedUser = await userModel.findByIdAndUpdate(req.user._id,{
-      name: name || user.name,
-      phone: phone || user.phone,
-      password: hashedPassword || user.password,
-      address: address || user.address
-     },{new: true});
-    
+    const updatedUser = await userModel.findByIdAndUpdate(
+      req.user._id,
+      {
+        name: name || user.name,
+        phone: phone || user.phone,
+        password: hashedPassword || user.password,
+        address: address || user.address,
+      },
+      { new: true }
+    );
+
     //  res back
     res.status(200).send({
-      success: true, 
-      message: 'Profile udpated',
-      updatedUser
-    })
+      success: true,
+      message: "Profile udpated",
+      updatedUser,
+    });
   } catch (error) {
     console.log(error);
     res.status(400).send({
       error,
-      success: false, 
-      message: 'error in update profile api'
-    })
+      success: false,
+      message: "error in update profile api",
+    });
   }
-}
+};
+
+// orders controller
+export const ordersController = async (req, res) => {
+  try {
+    const orders = await orderModel
+      .find({ buyer: req.user._id })
+      .populate("products", "-photo")
+      .populate("buyer", "name");
+    res.json(orders);
+
+    // res.status(200).send({
+    //   orders
+    // })
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      error,
+      message: "error in orders api",
+    });
+  }
+};
