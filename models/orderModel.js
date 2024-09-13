@@ -4,18 +4,18 @@ const orderSchema = new mongoose.Schema({
   products:[
     {
         type: mongoose.ObjectId,
-        ref: 'Product'
+        ref: 'Products'
     }
   ],
   payment:{},
   buyer:{
     type: mongoose.ObjectId,
-    ref: 'User'
+    ref: 'Users'
   },
   status:{
     type: String,
     default: 'Not Process',
-    enum: ["Not processing", "Processing", "Shipped", "Delivered", "Cancelled"]
+    enum: ["Not Process", "Processing", "Shipped", "Delivered", "Cancelled"]
   }
 },{timestamps:true});
 

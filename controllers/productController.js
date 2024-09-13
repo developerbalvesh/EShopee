@@ -405,6 +405,7 @@ export const braintreeTokenController = async (req, res) => {
 export const braintreePaymentController = async (req, res) => {
   try {
     const { cart, nonce } = req.body;
+    let total = 0;
     cart.map((i) => (total += total + i.price));
     let newTransaction = gateway.transaction.sale({
       amount: total,
