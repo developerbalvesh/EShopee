@@ -240,3 +240,44 @@ export const ordersController = async (req, res) => {
     });
   }
 };
+
+// all order controller
+export const allOrderController = async (req, res) => {
+  try {
+    const orders = await orderModel
+      .find({})
+      .populate("products", "-photo")
+      .populate("buyer", "name")
+      .sort({ createdAt: -1 });
+
+    res.json(orders);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({
+      success: false,
+      message: "error in all order api",
+      error,
+    });
+  }
+};
+
+// update order status
+export const updateOrderStatusController = async (req, res) => {
+  try {
+    const { oid } = req.params;
+    const { status } = req.body;
+    const order = await orderModel.findByIdAndUpdate(
+      oid,
+      { status },
+      { new: true }
+    );
+    res.json(order);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({
+      success: false,
+      error,
+      message: "error in update status api",
+    });
+  }
+};

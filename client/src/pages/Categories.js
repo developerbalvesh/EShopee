@@ -16,11 +16,11 @@ const Categories = () => {
                 <div className="col-md-6">
                   <Link to={`/categories/${c.slug}`}>
                     <div
-                      className="card text-bg-light mb-3"
+                      className="btn btn-outline-dark w-100 m-2"
                     >
-                      <div className="card-header">
+                      {/* <div className="card-header"> */}
                         <h3 className="m-0">{c.name}</h3>
-                      </div>
+                      {/* </div> */}
                     </div>
                   </Link>
                 </div>
