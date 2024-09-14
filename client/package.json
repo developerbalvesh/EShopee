@@ -23,6 +23,7 @@
     "react-select": "^5.8.0",
     "react-select-search": "^4.1.7",
     "react-toastify": "^10.0.5",
+    "serve": "^14.2.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
